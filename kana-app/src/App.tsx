@@ -9,10 +9,10 @@ export default function App() {
     const [script, setScript] = useState<'hiragana' | 'katakana'>('hiragana');
 
     return (
-        <div style={{ maxWidth: '700px', margin: '0 auto', padding: '20px' }}>
-            <h1>Kana App</h1>
+        <div className="app">
+            <h1 className="app-title">Kana<span>.</span></h1>
 
-            <nav style={{ display: 'flex', gap: '16px', marginBottom: '24px' }}>
+            <nav className="nav">
                 <NavLink to="/study">Étude</NavLink>
                 <NavLink to="/quiz">Quiz</NavLink>
                 <NavLink to="/stats">Stats</NavLink>
@@ -22,24 +22,28 @@ export default function App() {
                 <Route path="/" element={<Navigate to="/study" replace />} />
 
                 <Route path="/study" element={
-                    <div>
-                        <div style={{ marginBottom: '16px' }}>
-                            <label style={{ marginRight: '16px' }}>
-                                <input type="radio" checked={script === 'hiragana'} onChange={() => setScript('hiragana')} />
-                                {' '}Hiragana
-                            </label>
-                            <label>
-                                <input type="radio" checked={script === 'katakana'} onChange={() => setScript('katakana')} />
-                                {' '}Katakana
-                            </label>
+                    <>
+                        <div className="script-selector">
+                            <button className={`script-btn ${script === 'hiragana' ? 'active' : ''}`} onClick={() => setScript('hiragana')}>
+                                Hiragana
+                            </button>
+                            <button className={`script-btn ${script === 'katakana' ? 'active' : ''}`} onClick={() => setScript('katakana')}>
+                                Katakana
+                            </button>
                         </div>
                         <StudyMode script={script} kanaData={kanaData} />
-                    </div>
+                    </>
                 } />
 
                 <Route path="/quiz" element={<QuizMode script={script} kanaData={kanaData} />} />
                 <Route path="/stats" element={<StatsPage />} />
-                <Route path="*" element={<><p>Page introuvable</p><NavLink to="/">Accueil</NavLink></>} />
+
+                <Route path="*" element={
+                    <div className="not-found">
+                        <p>Page introuvable</p>
+                        <NavLink to="/">Accueil</NavLink>
+                    </div>
+                } />
             </Routes>
         </div>
     );

@@ -13,35 +13,33 @@ export default function QuizSummary({ results, score, script, onRestart }: Props
     const errors = results.filter(r => !r.correct);
 
     return (
-        <div style={{ maxWidth: '500px', margin: '20px auto' }}>
+        <div className="summary-wrap">
             <h2>Résultats</h2>
 
-            <div style={{ fontSize: '2.5rem', textAlign: 'center', margin: '20px 0', fontWeight: 'bold' }}>
+            <div className="summary-score">
                 {score} / {total}
-                <span style={{ fontSize: '1.2rem', color: '#666', marginLeft: '12px' }}>({pct}%)</span>
+                <span className="pct">({pct}%)</span>
             </div>
 
             {errors.length === 0 ? (
-                <p style={{ textAlign: 'center', color: 'green', fontSize: '1.2rem' }}>Parfait ! 🎉</p>
+                <p className="summary-perfect">Parfait ! 🎉</p>
             ) : (
                 <>
-                    <h3>Erreurs ({errors.length})</h3>
-                    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                    <p className="errors-title">Erreurs ({errors.length})</p>
+                    <table className="errors-table">
                         <thead>
-                        <tr style={{ borderBottom: '2px solid #ddd' }}>
-                            <th style={{ textAlign: 'left', padding: '8px' }}>Kana</th>
-                            <th style={{ textAlign: 'left', padding: '8px' }}>Correct</th>
-                            <th style={{ textAlign: 'left', padding: '8px' }}>Ta réponse</th>
+                        <tr>
+                            <th>Kana</th>
+                            <th>Correct</th>
+                            <th>Ta réponse</th>
                         </tr>
                         </thead>
                         <tbody>
                         {errors.map((r, i) => (
-                            <tr key={i} style={{ borderBottom: '1px solid #eee' }}>
-                                <td style={{ padding: '8px', fontSize: '1.8rem' }}>
-                                    {script === 'hiragana' ? r.kana.hiragana : r.kana.katakana}
-                                </td>
-                                <td style={{ padding: '8px', color: 'green', fontWeight: 'bold' }}>{r.kana.romanji}</td>
-                                <td style={{ padding: '8px', color: 'red' }}>{r.userAnswer || '(timeout)'}</td>
+                            <tr key={i}>
+                                <td className="kana-cell">{script === 'hiragana' ? r.kana.hiragana : r.kana.katakana}</td>
+                                <td className="correct-cell">{r.kana.romanji}</td>
+                                <td className="wrong-cell">{r.userAnswer || '(timeout)'}</td>
                             </tr>
                         ))}
                         </tbody>
@@ -49,9 +47,7 @@ export default function QuizSummary({ results, score, script, onRestart }: Props
                 </>
             )}
 
-            <button onClick={onRestart} style={{ marginTop: '28px', padding: '10px 28px', fontSize: '1rem', cursor: 'pointer' }}>
-                Rejouer
-            </button>
+            <button className="btn-replay" onClick={onRestart}>Rejouer</button>
         </div>
     );
 }

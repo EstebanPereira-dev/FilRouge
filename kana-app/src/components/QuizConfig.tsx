@@ -22,81 +22,70 @@ export default function QuizConfig({ kanaData, onStart }: Props) {
     };
 
     return (
-        <div style={{ maxWidth: '420px', margin: '20px auto' }}>
+        <div className="config-wrap">
             <h2>Configuration</h2>
 
-            <div style={{ marginBottom: '20px' }}>
-                <strong>Questions</strong>
-                <div style={{ marginTop: '8px' }}>
+            <div className="config-section">
+                <span className="config-label">Questions</span>
+                <div className="radio-group">
                     {([5, 10, 20, 'all'] as const).map(n => (
-                        <label key={String(n)} style={{ marginRight: '16px' }}>
-                            <input
-                                type="radio"
-                                checked={config.questionCount === n}
-                                onChange={() => setConfig(prev => ({ ...prev, questionCount: n }))}
-                            />
-                            {' '}{n === 'all' ? 'Toutes' : n}
-                        </label>
+                        <button
+                            key={String(n)}
+                            className={`radio-btn ${config.questionCount === n ? 'active' : ''}`}
+                            onClick={() => setConfig(prev => ({ ...prev, questionCount: n }))}
+                        >
+                            {n === 'all' ? 'Toutes' : n}
+                        </button>
                     ))}
                 </div>
             </div>
 
-            <div style={{ marginBottom: '20px' }}>
-                <strong>Mode</strong>
-                <div style={{ marginTop: '8px' }}>
-                    <label style={{ marginRight: '16px' }}>
-                        <input
-                            type="radio"
-                            checked={config.mode === 'normal'}
-                            onChange={() => setConfig(prev => ({ ...prev, mode: 'normal' }))}
-                        />
-                        {' '}Kana → rōmaji
-                    </label>
-                    <label>
-                        <input
-                            type="radio"
-                            checked={config.mode === 'inverse'}
-                            onChange={() => setConfig(prev => ({ ...prev, mode: 'inverse' }))}
-                        />
-                        {' '}Rōmaji → kana (QCM)
-                    </label>
+            <div className="config-section">
+                <span className="config-label">Mode</span>
+                <div className="radio-group">
+                    <button
+                        className={`radio-btn ${config.mode === 'normal' ? 'active' : ''}`}
+                        onClick={() => setConfig(prev => ({ ...prev, mode: 'normal' }))}
+                    >
+                        Kana → rōmaji
+                    </button>
+                    <button
+                        className={`radio-btn ${config.mode === 'inverse' ? 'active' : ''}`}
+                        onClick={() => setConfig(prev => ({ ...prev, mode: 'inverse' }))}
+                    >
+                        Rōmaji → kana (QCM)
+                    </button>
                 </div>
             </div>
 
-            <div style={{ marginBottom: '20px' }}>
-                <strong>Timer</strong>
-                <div style={{ marginTop: '8px' }}>
+            <div className="config-section">
+                <span className="config-label">Timer</span>
+                <div className="radio-group">
                     {([null, 5, 10, 15] as const).map(t => (
-                        <label key={String(t)} style={{ marginRight: '16px' }}>
-                            <input
-                                type="radio"
-                                checked={config.timerSeconds === t}
-                                onChange={() => setConfig(prev => ({ ...prev, timerSeconds: t }))}
-                            />
-                            {' '}{t === null ? 'Aucun' : `${t}s`}
-                        </label>
+                        <button
+                            key={String(t)}
+                            className={`radio-btn ${config.timerSeconds === t ? 'active' : ''}`}
+                            onClick={() => setConfig(prev => ({ ...prev, timerSeconds: t }))}
+                        >
+                            {t === null ? 'Aucun' : `${t}s`}
+                        </button>
                     ))}
                 </div>
             </div>
 
-            <div style={{ marginBottom: '28px' }}>
-                <strong>Lignes</strong>
-                <small style={{ color: '#888', marginLeft: '8px' }}>
-                    {config.selectedRows.length === 0 ? '(toutes)' : config.selectedRows.join(', ')}
-                </small>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '10px' }}>
+            <div className="config-section">
+                <span className="config-label">
+                    Lignes&nbsp;
+                    <span style={{ color: '#555', textTransform: 'none', letterSpacing: 0 }}>
+                        {config.selectedRows.length === 0 ? '(toutes)' : config.selectedRows.join(', ')}
+                    </span>
+                </span>
+                <div className="rows-grid">
                     {rows.map(row => (
                         <button
                             key={row}
+                            className={`row-tag ${config.selectedRows.includes(row) ? 'active' : ''}`}
                             onClick={() => toggleRow(row)}
-                            style={{
-                                padding: '4px 12px',
-                                border: '1px solid #999',
-                                borderRadius: '4px',
-                                background: config.selectedRows.includes(row) ? '#0066cc' : 'white',
-                                color: config.selectedRows.includes(row) ? 'white' : 'black',
-                                cursor: 'pointer',
-                            }}
                         >
                             {row}
                         </button>
@@ -104,7 +93,7 @@ export default function QuizConfig({ kanaData, onStart }: Props) {
                 </div>
             </div>
 
-            <button onClick={() => onStart(config)} style={{ padding: '10px 28px', fontSize: '1rem', cursor: 'pointer' }}>
+            <button className="btn-start" onClick={() => onStart(config)}>
                 Commencer
             </button>
         </div>

@@ -5,79 +5,79 @@ export default function StatsPage() {
     const { sessions, bestScore, hardestCharacters, totalSessions, averageScore } = useStats();
 
     return (
-        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+        <div className="stats-wrap">
             <h2>Statistiques</h2>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '32px' }}>
+            <div className="stats-cards">
                 {[
                     { label: 'Sessions', value: totalSessions },
                     { label: 'Meilleur score', value: bestScore },
                     { label: 'Moy. réussite', value: `${averageScore}%` },
                 ].map(({ label, value }) => (
-                    <div key={label} style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '16px', textAlign: 'center' }}>
-                        <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>{value}</div>
-                        <div style={{ color: '#666', marginTop: '4px' }}>{label}</div>
+                    <div key={label} className="stat-card">
+                        <span className="stat-value">{value}</span>
+                        <span className="stat-label">{label}</span>
                     </div>
                 ))}
             </div>
 
             {hardestCharacters.length > 0 && (
-                <div style={{ marginBottom: '32px' }}>
-                    <h3>Caractères difficiles</h3>
-                    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <>
+                    <p className="section-title">Caractères difficiles</p>
+                    <table className="stats-table">
                         <thead>
-                        <tr style={{ borderBottom: '2px solid #ddd' }}>
-                            <th style={{ textAlign: 'left', padding: '8px' }}>Kana</th>
-                            <th style={{ textAlign: 'left', padding: '8px' }}>Rōmaji</th>
-                            <th style={{ textAlign: 'left', padding: '8px' }}>Essais</th>
-                            <th style={{ textAlign: 'left', padding: '8px' }}>Erreurs</th>
-                            <th style={{ textAlign: 'left', padding: '8px' }}>Taux</th>
+                        <tr>
+                            <th>Kana</th>
+                            <th>Rōmaji</th>
+                            <th>Essais</th>
+                            <th>Erreurs</th>
+                            <th>Taux</th>
                         </tr>
                         </thead>
                         <tbody>
                         {hardestCharacters.map((stat, i) => (
-                            <tr key={i} style={{ borderBottom: '1px solid #eee' }}>
-                                <td style={{ padding: '8px', fontSize: '1.6rem' }}>{stat.kana.hiragana}</td>
-                                <td style={{ padding: '8px' }}>{stat.kana.romanji}</td>
-                                <td style={{ padding: '8px' }}>{stat.attempts}</td>
-                                <td style={{ padding: '8px', color: 'red' }}>{stat.errors}</td>
-                                <td style={{ padding: '8px' }}>{Math.round(stat.errorRate * 100)}%</td>
+                            <tr key={i}>
+                                <td className="kana-big">{stat.kana.hiragana}</td>
+                                <td>{stat.kana.romanji}</td>
+                                <td>{stat.attempts}</td>
+                                <td>{stat.errors}</td>
+                                <td className="error-rate">{Math.round(stat.errorRate * 100)}%</td>
                             </tr>
                         ))}
                         </tbody>
                     </table>
-                </div>
+                </>
             )}
 
             {sessions.length > 0 ? (
-                <div>
-                    <h3>Historique</h3>
-                    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <>
+                    <p className="section-title">Historique</p>
+                    <table className="stats-table">
                         <thead>
-                        <tr style={{ borderBottom: '2px solid #ddd' }}>
-                            <th style={{ textAlign: 'left', padding: '8px' }}>Date</th>
-                            <th style={{ textAlign: 'left', padding: '8px' }}>Mode</th>
-                            <th style={{ textAlign: 'left', padding: '8px' }}>Score</th>
-                            <th style={{ textAlign: 'left', padding: '8px' }}>%</th>
+                        <tr>
+                            <th>Date</th>
+                            <th>Mode</th>
+                            <th>Score</th>
+                            <th>%</th>
                         </tr>
                         </thead>
                         <tbody>
                         {sessions.map((s, i) => (
-                            <tr key={i} style={{ borderBottom: '1px solid #eee' }}>
-                                <td style={{ padding: '8px', fontSize: '0.9rem' }}>{s.date}</td>
-                                <td style={{ padding: '8px' }}>{s.mode}</td>
-                                <td style={{ padding: '8px' }}>{s.score} / {s.total}</td>
-                                <td style={{ padding: '8px' }}>{Math.round((s.score / s.total) * 100)}%</td>
+                            <tr key={i}>
+                                <td>{s.date}</td>
+                                <td>{s.mode}</td>
+                                <td>{s.score} / {s.total}</td>
+                                <td>{Math.round((s.score / s.total) * 100)}%</td>
                             </tr>
                         ))}
                         </tbody>
                     </table>
-                </div>
+                </>
             ) : (
-                <p style={{ color: '#888' }}>Aucune session pour l'instant.</p>
+                <p className="empty-state">Aucune session pour l'instant.</p>
             )}
 
-            <Link to="/quiz" style={{ display: 'inline-block', marginTop: '28px' }}>← Retour au quiz</Link>
+            <Link to="/quiz" className="back-link">← Retour au quiz</Link>
         </div>
     );
 }

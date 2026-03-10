@@ -1,5 +1,4 @@
 import type { Kana } from '../data/kana';
-import CharacterCard from './CharacterCard';
 
 interface Props {
     script: 'hiragana' | 'katakana';
@@ -8,16 +7,13 @@ interface Props {
 
 export default function StudyMode({ script, kanaData }: Props) {
     return (
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '8px' }}>
-                {kanaData.map((kana, i) => (
-                    <CharacterCard
-                        key={i}
-                        character={script === 'hiragana' ? kana.hiragana : kana.katakana}
-                        romanji={kana.romanji}
-                    />
-                ))}
-            </div>
+        <div className="char-grid">
+            {kanaData.map((kana, i) => (
+                <div key={i} className="char-card">
+                    <span className="kana">{script === 'hiragana' ? kana.hiragana : kana.katakana}</span>
+                    <span className="romaji">{kana.romanji}</span>
+                </div>
+            ))}
         </div>
     );
 }
